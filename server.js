@@ -14,10 +14,9 @@ var errormessage = ""
 var entries = []
 try {
     const mongouri = "mongodb+srv://<username>:<password>@<your-cluster-url>/test?retryWrites=true&w=majority";
-    const mongoclient = new MongoClient(mongouri)
-    mongoclient.connect();
-
-    guests = mongoclient.db.collection('guestbook')
+    //const mongoclient = new MongoClient(mongouri)
+    //mongoclient.connect();
+    //guests = mongoclient.db.collection('guestbook')
 
 } catch (e) {
     console.log(e);
