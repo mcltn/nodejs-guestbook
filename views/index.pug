@@ -1,0 +1,28 @@
+extends layout.pug
+
+block content
+    if(errormessage != "")
+        p(class='alert alert-danger') #{errormessage}
+    else
+        div(class="container")
+            div(class="row")
+                div(class="col-md")
+                    form(action="/submit", method="POST")
+                        .form-group
+                            label.col-form-label Guest Name
+                            input.form-control(name="guest", type="text", placeholder="")
+                        .form-group
+                            label.col-form-label Guest Message
+                            textarea.form-control(name="message", cols="30", rows="3", placeholder="")
+                        button.btn.btn-primary(role="submit") Submit
+                div(class="col-md")
+                    p Guestbook Entries
+                    hr
+                    .row
+                        each guest in guests
+                            .col-sm-6.mt-3
+                                .card
+                                    .card-body
+                                        blockquote.blockquote.mb-0
+                                            p= guest.message
+                                            footer.blockquote-footer #{guest.name} on #{guest.date}
