@@ -4,8 +4,8 @@ A simple guestbook web app built using NodeJS, Express and integrating with a Mo
 
 ## Installation
 ```bash
-$ git clone https://github.com/mcltn/node-guestbook
-$ cd node-guestbook
+$ git clone https://github.com/mcltn/nodejs-guestbook
+$ cd nodejs-guestbook
 $ npm install
 ```
 

@@ -17,7 +17,7 @@ try {
     const mongoclient = new MongoClient(mongouri)
     mongoclient.connect();
 
-    guests = db.collection('guests')
+    guests = mongoclient.db.collection('guestbook')
 
 } catch (e) {
     console.log(e);
