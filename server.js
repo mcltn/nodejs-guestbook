@@ -1,4 +1,4 @@
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 const router = express.Router();
@@ -12,6 +12,7 @@ const DBUSERNAME = process.env.DBUSERNAME;
 const DBPASSWORD = process.env.DBPASSWORD;
 const DBREPLICASET = process.env.DBREPLICASET;
 const DBNAME = process.env.DBNAME;
+const CERTFILE = process.env.CERTFILE;
 
 var errormessage = "";
 
@@ -23,7 +24,7 @@ mongoose
         replicaSet: "replset",
         authSource: "admin",
         tls: true,
-        tlsCAFile: "cert.pem",
+        tlsCAFile: CERTFILE,
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -37,7 +38,7 @@ mongoose
 
 app.use(express.json());
 app.set('view engine', 'pug');
-
+app.use(express.static('static'));
 
   
 var db = mongoose.connection; 
@@ -61,7 +62,7 @@ router.get('/', (req, res) => {
 
 router.post('/submit', urlEncoding, function (req, res) {
   if (req.body.message === '' || req.body.guest === '') {
-    res.redirect('/')
+    res.redirect('/');
     return
   }
 
@@ -73,6 +74,17 @@ router.post('/submit', urlEncoding, function (req, res) {
 
   res.redirect('/');
 });
+
+router.get('/guest/:id/delete', (req, res) => {
+  console.log("delete entry: ", req.params.id);
+  Entry.findOneAndRemove({_id: req.params.id}, (err) => {
+    if(err) {
+      console.log("failed to delete entry: ", req.params.id);    
+    }
+    console.log("successfully deleted entry: ", req.params.id);    
+    res.redirect('/');
+  })
+})
 
 app.use(router);
 

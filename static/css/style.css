@@ -7,6 +7,12 @@ body {
     margin-bottom: 80px;
 }
 
+.delete-btn {
+    padding: 2px 4px;
+    font-size: 8px;
+    float: right;
+  }
+
 .footer {
     position: absolute;
     bottom: 0;
