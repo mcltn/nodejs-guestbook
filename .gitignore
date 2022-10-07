@@ -1,2 +1,5 @@
 node_modules
+
 *.prv
+*.pem
+*.env_file

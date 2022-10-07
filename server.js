@@ -45,35 +45,33 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 db.once('open', function() {
   console.log("Connection Successful!");
+});
 
-  router.get('/', (req, res) => {
-    console.log("get entries");
-    Entry.find((err,docs)=>{
-      if(err){
-        res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: [] });
-        console.log(err);
-      };
-      console.log(docs);
-      res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: docs });
-    });
-  })
+router.get('/', (req, res) => {
+  console.log("get entries");
+  Entry.find((err,docs)=>{
+    if(err){
+      res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: [] });
+      console.log(err);
+    };
+    console.log(docs);
+    res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: docs });
+  });
+})
 
-  app.post('/submit', urlEncoding, function (req, res) {
-    if (req.body.message === '' || req.body.guest === '') {
-      res.redirect('/')
-      return
-    }
-  
-    var entry1 = new Entry({ guest: req.body.guest, message: req.body.message });
-    entry1.save(function (err, entry1) {
-      if (err) return console.error(err);
-      console.log(entry1.guest + " added entry to guestbook.");
-    });
+router.post('/submit', urlEncoding, function (req, res) {
+  if (req.body.message === '' || req.body.guest === '') {
+    res.redirect('/')
+    return
+  }
 
-    res.redirect('/');
+  var entry1 = new Entry({ guest: req.body.guest, message: req.body.message });
+  entry1.save(function (err, entry1) {
+    if (err) return console.error(err);
+    console.log(entry1.guest + " added entry to guestbook.");
+  });
 
-  })
-
+  res.redirect('/');
 });
 
 app.use(router);
