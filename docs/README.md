@@ -5,6 +5,17 @@ This lab will introduce the steps to deploy a cloud native application that inte
 ## Pre-requisites
 We will be using a mix of the IBM Cloud control panel and the IBM Cloud CLI. You will need to make certain you have access to an account where you have provisioning capabilities as well as the IBM Cloud CLI installed on your workstation.
 
+Install the IBM Cloud CLI if you do not already have it.
+[IBM Cloud CLI](https://cloud.ibm.com/docs/cli?topic=cli-getting-started)
+
+Confirm that you have the code-engine plugin installed for your IBM Cloud CLI, and install the plugin if you do not.
+```bash
+ibmcloud plugin show code-engine
+
+ibmcloud plugin install code-engine
+```
+
+
 ## Overview
 
 The first step will be to create a IBM Cloud Databases for MongoDB instance. Then you will deploy the application using IBM Cloud Code Engine. Last you can then alternatively deploy the application using IBM Cloud Kubernetes service or IBM Cloud Red Hat OpenShift.
@@ -48,6 +59,68 @@ Go back to the main detail page of your service by clicking **Overview** on the 
 
 This concludes the **IBM Cloud Databases for MongoDB** portion of the lab. You should now have a database instance running and credentials to be used for connecting an application.
 
+
 ## IBM Cloud Code Engine
+In this portion of the lab you will deploy an application from a GitHub repository to **IBM Cloud Code Engine**. These steps will be performed via the **IBM CLI**. Please make certain you have the CLI installed and have the appropriate plugins added, in this case, the code engine plugin. This application has a dependency on a Mongo database (which you should already have deployed) and has required environment variables. Before being able to create the application within Code Engine, we will need to define the values for the variables by setting up a few local environment variables that will get passed into the CLI command for creating the application. You should have this information from the **IBM Cloud Databases** section of this lab above.
+
+```bash
+export MONGO_DB_USERNAME=<YOUR_DB_USERNAME>
+export MONGO_DB_PASSWORD=<YOUR_DB_PASSWORD>
+export MONGO_DB_REPLICASET=<YOUR_DB_REPLICASET>
+export APIKEY=<YOUR_IBM_CLOUD_APIKEY>
+```
+
+
+### Clone the application repository
+You will start by cloning the repositiory to work with the files locally.
+
+```bash
+git clone https://github.com/mcltn/nodejs-guestbook
+cd nodejs-guestbook/
+```
+
+### Login to your account
+If you do not have an API key defined for your account, you can login alternatively using your **IBMID**. Just be certain to target the appropriate account.
+
+```bash
+ibmcloud login --apikey ${APIKEY} -r <region> -g <resource-group>
+```
+
+### Create a project
+Create a **Code Engine** project to host the components for your application. A project is a grouping of **Code Engine** entities such as applications, jobs, and builds. A project is based on a Kubernetes namespace. The name of your project must be unique within your **IBM Cloud®** resource group, user account, and region. Projects are used to manage resources and provide access to its entities.
+
+```bash
+ibmcloud ce project create --name guestbook-lab
+```
+
+By default, the CLI will target the project, however, if you already had a project of the same name or coming back to this step later, you may need to select the project to continue the steps further.
+
+```bash
+ibmcloud ce project select --name guestbook-lab
+```
+
+### Create Secret
+Now that you have a project, you will create a **Secret** to store the **cert.pem** file contents which will be mounted to the application as a volume. Copy the cert.pem file you created previously in the **IBM Cloud Database** portion of the lab, or create a new cert.pem file with the **TLS Certificate** as contents into this directory. Next, create the secret.
+
+```bash
+ibmcloud ce secret create --name guestbook-lab --from-file cert.pem
+```
+
+### Create App
+Now you are ready to create your application. This step will create a new application using the contents from the Dockerfile of the project to build the application and deploy. We will set the minimum scale of the application to **1** so we always have a single instance running, however you can set this to **0** if you wish.
+
+```bash
+ibmcloud ce app create --name guestbook-lab --build-source . \
+--strategy dockerfile \
+--minscale 1 \
+--mount-secret /secrets=guestbook-lab \
+--env DBUSERNAME=${MONGO_DB_USERNAME} \
+--env DBPASSWORD=${MONGO_DB_PASSWORD} \
+--env DBNAME=guestbook \
+--env DBREPLICASET=${MONGO_DB_REPLICASET} \
+--env CERTFILE=/secrets/cert.pem
+```
+You should now see a **URL** presented to you in the output in which you can navigate to in your browser and see the application running.
+
 
 ## IBM Cloud OpenShift
