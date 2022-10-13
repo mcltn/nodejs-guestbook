@@ -1,6 +1,6 @@
-# node-guestbook
+# nodejs guestbook sample application
 
-A simple guestbook web app built using NodeJS, Express and integrating with a MongoDB backend.
+This is a simple guestbook web app built using NodeJS, Express and integrating with a MongoDB backend.
 
 ## Installation
 ```bash
