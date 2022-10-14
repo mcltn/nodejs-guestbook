@@ -92,6 +92,7 @@ Create a **Code Engine** project to host the components for your application. A 
 ```bash
 ibmcloud ce project create --name guestbook-lab
 ```
+![CE Create Project](ce-create-project.png)
 
 By default, the CLI will target the project, however, if you already had a project of the same name or coming back to this step later, you may need to select the project to continue the steps further.
 
@@ -105,6 +106,7 @@ Now that you have a project, you will create a **Secret** to store the **cert.pe
 ```bash
 ibmcloud ce secret create --name guestbook-lab --from-file cert.pem
 ```
+![CE Create Secret](ce-create-secret.png)
 
 ### Create App
 Now you are ready to create your application. This step will create a new application using the contents from the Dockerfile of the project to build the application and deploy. We will set the minimum scale of the application to **1** so we always have a single instance running, however you can set this to **0** if you wish.
@@ -122,5 +124,9 @@ ibmcloud ce app create --name guestbook-lab --build-source . \
 ```
 You should now see a **URL** presented to you in the output in which you can navigate to in your browser and see the application running.
 
+![CE Create App](ce-create-app.png)
+
 
 ## IBM Cloud OpenShift
+
+### Coming soon
