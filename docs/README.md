@@ -2,6 +2,9 @@
 
 This lab will introduce the steps to deploy a cloud native application that integrates with a database. In this scenario, we will be deploying a sample guestbook application, built using nodejs, that integrates with a Mongo database.
 
+## GitHub Repository
+The application code and Dockerfile can be found here in the [nodejs-guestbook](https://github.com/mcltn/nodejs-guestbook) project repository.
+
 ## Pre-requisites
 We will be using a mix of the IBM Cloud control panel and the IBM Cloud CLI. You will need to make certain you have access to an account where you have provisioning capabilities as well as the IBM Cloud CLI installed on your workstation.
 
