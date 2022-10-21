@@ -82,7 +82,8 @@ cd nodejs-guestbook/
 ```
 
 ### Login to your account
-If you do not have an API key defined for your account, you can login alternatively using your **IBMID**. Just be certain to target the appropriate account.
+If you do not have an API key defined for your account, you can create one in the IBM Cloud Control Panel by following the instructions here.
+[Creating an API Key](https://cloud.ibm.com/docs/account?topic=account-userapikey&interface=ui#create_user_key)
 
 ```bash
 ibmcloud login --apikey ${APIKEY} -r <region> -g <resource-group>
