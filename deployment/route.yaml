@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: nodejs-guestbook
+  namespace: {{YOUR_NAMESPACE}}
+spec:
+  host: {{YOUR_NAMESPACE}}.{{CLUSTER_DOMAIN_NAME}}
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: guestbook-lab

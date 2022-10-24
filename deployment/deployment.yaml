@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-guestbook-deployment
+  labels:
+    app: nodejs-guestbook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-guestbook
+  template:
+    metadata:
+      labels:
+        app: nodejs-guestbook
+    spec:
+      containers:
+      - name: nodejs-guestbook
+        image: mcltn/nodejs-guestbook:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        env:
+          - name: DBUSERNAME
+            valueFrom:
+              secretKeyRef:
+                name: icd-secrets
+                key: DBUSERNAME
+          - name: DBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: icd-secrets
+                key: DBPASSWORD
+          - name: DBNAME
+            valueFrom:
+              secretKeyRef:
+                name: icd-secrets
+                key: DBNAME
+          - name: DBREPLICASET
+            valueFrom:
+              secretKeyRef:
+                name: icd-secrets
+                key: DBREPLICASET
+          - name: CERTFILE
+            valueFrom:
+              secretKeyRef:
+                name: icd-secrets
+                key: CERTFILE
+        volumeMounts:
+            - name: icd-cert
+              mountPath: /secrets/cert.pem
+              subPath: cert.pem
+              readOnly: true
+      volumes:
+        - name: icd-cert
+          secret:
+            secretName: icd-cert
