@@ -7,5 +7,5 @@ type: Opaque
 stringData:
   cert.pem: |
     -----BEGIN CERTIFICATE-----
-    {{CERTIFCATE}}
+    {{CERTIFICATE}}
     -----END CERTIFICATE-----

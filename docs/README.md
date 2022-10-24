@@ -176,7 +176,7 @@ From the application repository, copy the contents from the [icd-secrets.yaml.te
 
 ![Create Secret for Database Credentials](openshift-create-icd-secret.png)
 
-Just like the step above, now copy the contents from the [icd-cert.yaml.template](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/icd-cert.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{CERTIFCATE}}** placeholder with the value of your ICD MongoDB TLS Certificate. Next click **Create**.
+Just like the step above, now copy the contents from the [icd-cert.yaml.template](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/icd-cert.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{CERTIFICATE}}** placeholder with the value of your ICD MongoDB TLS Certificate. Next click **Create**.
 
 ![Create Secret for TLS Cert](openshift-create-cert-secret.png)
 
