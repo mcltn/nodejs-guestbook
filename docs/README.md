@@ -172,11 +172,11 @@ Next, click the **Create** drop down button and select **From YAML**.
 
 ![Create Secret](openshift-create-secret-dropdown.png)
 
-From the application repository, copy the contents from the [icd-secrets.yaml.template](https://github.com/mcltn/nodejs-guestbook/deployment/icd-secrets.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{PLACEHOLDERS}}** with the values for your namespace and ICD MongoDB. Next click **Create**.
+From the application repository, copy the contents from the [icd-secrets.yaml.template](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/icd-secrets.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{PLACEHOLDERS}}** with the values for your namespace and ICD MongoDB. Next click **Create**.
 
 ![Create Secret for Database Credentials](openshift-create-icd-secret.png)
 
-Just like the step above, now copy the contents from the [icd-cert.yaml.template](https://github.com/mcltn/nodejs-guestbook/deployment/icd-cert.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{CERTIFCATE}}** placeholder with the value of your ICD MongoDB TLS Certificate. Next click **Create**.
+Just like the step above, now copy the contents from the [icd-cert.yaml.template](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/icd-cert.yaml.template) file located in the deployment folder. Paste these contents in the window and replace the **{{CERTIFCATE}}** placeholder with the value of your ICD MongoDB TLS Certificate. Next click **Create**.
 
 ![Create Secret for TLS Cert](openshift-create-cert-secret.png)
 
@@ -190,7 +190,7 @@ Now we will create a **Deployment**. In the left navigation, click **Deployments
 
 ![Create Deployment](openshift-create-deployment-button.png)
 
-From the application repository, copy the contents from the [deployment.yaml](https://github.com/mcltn/nodejs-guestbook/deployment/deployment.yaml) file located in the deployment folder. Paste these contents in the window. You should not need to make any modifications to these contents. Then click **Create**.
+From the application repository, copy the contents from the [deployment.yaml](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/deployment.yaml) file located in the deployment folder. Paste these contents in the window. You should not need to make any modifications to these contents. Then click **Create**.
 
 ![Create Deployment](openshift-create-deployment.png)
 
@@ -209,7 +209,7 @@ To create a **Service**, you will need to select the **Networking** section in t
 
 ![Create Service](openshift-create-service-button.png)
 
-From the application repository, copy the contents from the [service.yaml](https://github.com/mcltn/nodejs-guestbook/deployment/service.yaml) file located in the deployment folder. Paste these contents in the window. Replace the {{NAMESPACE}} placeholder with your project/namespace name. Then click **Create**.
+From the application repository, copy the contents from the [service.yaml](https://raw.githubusercontent.com/mcltn/nodejs-guestbook/main/deployment/service.yaml) file located in the deployment folder. Paste these contents in the window. Replace the {{NAMESPACE}} placeholder with your project/namespace name. Then click **Create**.
 
 ![Create Service](openshift-create-service.png)
 
