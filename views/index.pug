@@ -6,26 +6,28 @@ block content
     else
         div(class="container")
             div(class="row")
-                div(class="col-md-5")
+                div(class="col-md-5 m-2 bg-light")
                     form(action="/submit", method="POST")
                         .form-group
-                            label.col-form-label Guest Name
+                            label.col-form-label.font-weight-bold Guest Name
                             input.form-control(name="guest", type="text", placeholder="")
                         .form-group
-                            label.col-form-label Guest Message
+                            label.col-form-label.font-weight-bold Guest Message
                             textarea.form-control(name="message", cols="30", rows="3", placeholder="")
                         button.btn.btn-primary(role="submit") Submit
-                div(class="col-md-7")
-                    p Guestbook Entries
-                    hr
+                div(class="col-md-6 m-2 pt-2 bg-light")
+                    p(class="font-weight-bold") Guestbook Entries
                     .row
                         if guests !== undefined
-                            each guest in guests
-                                if guest !== undefined
-                                    .col-sm-12.mt-3
-                                        .card
-                                            .card-body
-                                                a(class="btn btn-danger delete-btn" href=`/guest/${guest._id}/delete`) X
-                                                blockquote.blockquote.mb-0
-                                                    p #{guest.message}
-                                                    footer.blockquote-footer #{guest.guest} on #{guest.date}
+                            if guests.length > 0
+                                each guest in guests
+                                    if guest !== undefined
+                                        .col-sm-12.mb-3
+                                            .card
+                                                .card-body
+                                                    a(class="btn btn-danger delete-btn" href=`/guest/${guest._id}/delete`) X
+                                                    blockquote.blockquote.mb-0
+                                                        p #{guest.message}
+                                                        footer.blockquote-footer #{guest.guest}
+                            else
+                                p(class="pl-4") No guests have left a message.

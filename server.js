@@ -15,24 +15,26 @@ const DBNAME = process.env.DBNAME;
 const CERTFILE = process.env.CERTFILE;
 
 var errormessage = "";
+var err = false;
 
 mongoose
     .connect('mongodb://' + DBREPLICASET + '/', {
-        user: DBUSERNAME,
-        pass: DBPASSWORD,
-        dbName: DBNAME,
-        replicaSet: "replset",
-        authSource: "admin",
-        tls: true,
-        tlsCAFile: CERTFILE,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+      user: DBUSERNAME,
+      pass: DBPASSWORD,
+      dbName: DBNAME,
+      replicaSet: "replset",
+      authSource: "admin",
+      tls: true,
+      tlsCAFile: CERTFILE,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     })
     .catch(error => {
-        console.log("Mongoose error:");
-        console.log(error);
-        //process.exit(1);
-        errormessage = "The connection to the database failed. Please make sure the connection configuration is valid."
+      err = true;
+      console.log("Mongoose Error:");
+      console.log(error);
+      //process.exit(1);
+      errormessage = "The connection to the database failed. Please make sure the connection configuration is valid.";
   });
 
 
@@ -40,7 +42,6 @@ app.use(express.json());
 app.set('view engine', 'pug');
 app.use(express.static('static'));
 
-  
 var db = mongoose.connection; 
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -49,16 +50,25 @@ db.once('open', function() {
 });
 
 router.get('/', (req, res) => {
-  console.log("get entries");
-  Entry.find((err,docs)=>{
-    if(err){
-      res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: [] });
-      console.log(err);
-    };
-    console.log(docs);
-    res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: docs });
-  });
-})
+  console.log("Getting guestbook entries.");
+  try{
+    Entry.find((err,docs)=>{
+      if(err){
+        console.log(err);
+        res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: [] });
+      };
+      //console.log(docs);
+      console.log(docs.length);
+
+      res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: docs });
+    });
+  }
+  catch(err) {
+    errormessage = "The connection to the database failed. Please make sure the connection configuration is valid.";
+    console.log(errormessage);
+    res.render('index', { title: 'Welcome to the guestbook.', errormessage: errormessage, guests: [] });
+  }
+});
 
 router.post('/submit', urlEncoding, function (req, res) {
   if (req.body.message === '' || req.body.guest === '') {
@@ -84,7 +94,8 @@ router.get('/guest/:id/delete', (req, res) => {
     console.log("successfully deleted entry: ", req.params.id);    
     res.redirect('/');
   })
-})
+});
+
 
 app.use(router);
 
